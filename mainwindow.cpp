@@ -237,42 +237,79 @@ void MainWindow::on_play_clicked()
 
 void MainWindow::on_increase_five_clicked()
 {
+    //change  file number
+    tester_file_number += 5;
+
+    //record
+    tester_choice.append(tester_file_number);
 
 }
 
 void MainWindow::on_decrease_five_clicked()
 {
+    //change  file number
+    tester_file_number += 5;
+
+    //record
+    tester_choice.append(tester_file_number);
 
 }
 
 void MainWindow::on_increase_one_clicked()
 {
+    //change  file number
+    tester_file_number += 5;
+
+    //record
+    tester_choice.append(tester_file_number);
 
 }
 
 void MainWindow::on_decrease_one_clicked()
 {
+    //change  file number
+    tester_file_number += 5;
+
+    //record
+    tester_choice.append(tester_file_number);
 
 }
 
 void MainWindow::on_feel_nothing_clicked()
 {
+    tester_reaction.append(1);
 
 }
 
 
 void MainWindow::on_feel_good_clicked()
 {
-
+    tester_reaction.append(3);
 }
 
 void MainWindow::on_feel_strong_clicked()
 {
-
+    tester_reaction.append(4);
 }
 
 
 void MainWindow::on_finish_clicked()
 {
+    foreach(int x, tester_choice){
+            info << x;
+            info << " ";
+        }
+        info << "\n";
+        info << "Reaction Record: \n";
+        foreach(int y,tester_reaction){
+            info << y;
+            info << " ";
+        }
+        info << "\n";
+    this->close();
+}
 
+void MainWindow::on_feel_something_clicked()
+{
+    tester_reaction.append(2);
 }

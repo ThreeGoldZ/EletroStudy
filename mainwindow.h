@@ -36,6 +36,8 @@ private slots:
 
     void on_finish_clicked();
 
+    void on_feel_something_clicked();
+
 private:
     Ui::MainWindow *ui;
 
