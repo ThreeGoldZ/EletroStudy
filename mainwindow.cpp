@@ -102,6 +102,10 @@ static double outVC6 = 0.0;
 static double outVC7 = 0.0;
 static double outVC8 = 0.0;
 
+//Result recording initializations
+FILE *resultsFile;
+QString participant_id;
+bool first_time = true;
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -155,6 +159,29 @@ void MainWindow::on_play_clicked()
     ui->increase_one->setDisabled(true);
     ui->decrease_one->setDisabled(true);
 
+    //File initializer for recording the results
+    resultsFile = fopen("C:\\Users\\hmcul\\Desktop\\StudyUI_Results\\study.csv", "a");
+
+    if (resultsFile == NULL) {
+        printf("Error! opening file");
+        getchar();
+        // Program exits if the file pointer returns NULL.
+        exit(1);
+    }
+
+    if (first_time) {
+        //participant_id = ui->participant_id->text();
+        std::string parti = participant_id.toUtf8().constData();
+        fprintf(resultsFile, "%d", participant_id);
+        first_time = false;
+    }
+
+
+    //fprintf(resultsFile, "%s", participant_id);
+    //fprintf(resultsFile, ", %s", participant_id);
+
+    //info << "Hello";
+    fprintf(resultsFile, ", %d", tester_file_number);
 
     tester_choice.append(tester_file_number);
     //tester_file_number +=1;
@@ -304,24 +331,34 @@ void MainWindow::on_decrease_one_clicked()
 
 void MainWindow::on_feel_nothing_clicked()
 {
+    fprintf(resultsFile, ", 1");
     tester_reaction.append(1);
 
 }
 
+void MainWindow::on_feel_something_clicked()
+{
+    fprintf(resultsFile, ", 2");
+    tester_reaction.append(2);
+}
 
 void MainWindow::on_feel_good_clicked()
 {
+    fprintf(resultsFile, ", 3");
     tester_reaction.append(3);
 }
 
 void MainWindow::on_feel_strong_clicked()
 {
+    fprintf(resultsFile, ", 4");
     tester_reaction.append(4);
 }
 
 
 void MainWindow::on_finish_clicked()
 {
+    info << ui->participant_id->text();
+    info << "Selection Record: \n";
     foreach(int x, tester_choice){
             info << x;
             info << " ";
@@ -334,9 +371,4 @@ void MainWindow::on_finish_clicked()
         }
         info << "\n";
     this->close();
-}
-
-void MainWindow::on_feel_something_clicked()
-{
-    tester_reaction.append(2);
 }
