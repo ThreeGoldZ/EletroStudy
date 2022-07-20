@@ -6,7 +6,7 @@ static TIMER t;
 #define DAC_VSCALAR 32767		// Binary-to-volts scalar for Sensoray 826 analog output
 #define SAMPLE_RATE (10000)
 #define pi 3.14159
-#define cMax 5
+#define cMax 2.5
 #define _USE_MATH_DEFINES
 #define NUMBEROFDATA 40000
 
@@ -146,7 +146,18 @@ static int readData(char* filepath){
 
 void MainWindow::on_play_clicked()
 {
-    tester_file_number +=1;
+    ui->feel_good->setDisabled(false);
+    ui->feel_strong->setDisabled(false);
+    ui->feel_nothing->setDisabled(false);
+    ui->feel_something->setDisabled(false);
+    ui->increase_five->setDisabled(true);
+    ui->decrease_five->setDisabled(true);
+    ui->increase_one->setDisabled(true);
+    ui->decrease_one->setDisabled(true);
+
+
+    tester_choice.append(tester_file_number);
+    //tester_file_number +=1;
     QString strf = QString::number(tester_file_number) + ".txt";
     //QString strf= "1.txt";
 
@@ -239,39 +250,55 @@ void MainWindow::on_increase_five_clicked()
 {
     //change  file number
     tester_file_number += 5;
+    ui->feel_good->setDisabled(true);
+    ui->feel_strong->setDisabled(true);
+    ui->feel_nothing->setDisabled(true);
+    ui->feel_something->setDisabled(true);
 
     //record
-    tester_choice.append(tester_file_number);
+
 
 }
 
 void MainWindow::on_decrease_five_clicked()
 {
     //change  file number
-    tester_file_number += 5;
+    tester_file_number -= 5;
+    ui->feel_good->setDisabled(true);
+    ui->feel_strong->setDisabled(true);
+    ui->feel_nothing->setDisabled(true);
+    ui->feel_something->setDisabled(true);
 
-    //record
-    tester_choice.append(tester_file_number);
 
 }
 
 void MainWindow::on_increase_one_clicked()
 {
     //change  file number
-    tester_file_number += 5;
+    tester_file_number += 1;
+
+    ui->feel_good->setDisabled(true);
+    ui->feel_strong->setDisabled(true);
+    ui->feel_nothing->setDisabled(true);
+    ui->feel_something->setDisabled(true);
 
     //record
-    tester_choice.append(tester_file_number);
+    //tester_choice.append(tester_file_number);
 
 }
 
 void MainWindow::on_decrease_one_clicked()
 {
     //change  file number
-    tester_file_number += 5;
+    tester_file_number -= 1;
+
+    ui->feel_good->setDisabled(true);
+    ui->feel_strong->setDisabled(true);
+    ui->feel_nothing->setDisabled(true);
+    ui->feel_something->setDisabled(true);
 
     //record
-    tester_choice.append(tester_file_number);
+    //tester_choice.append(tester_file_number);
 
 }
 
