@@ -9,6 +9,8 @@ static TIMER t;
 #define cMax 2.5
 #define _USE_MATH_DEFINES
 #define NUMBEROFDATA 40000
+static char outputfilepath[200];
+
 
 static int ao1 = 0;
 static int ao2 = 1;
@@ -105,6 +107,8 @@ static double outVC8 = 0.0;
 //Result recording initializations
 FILE *resultsFile;
 QString participant_id;
+QString moisture_percent;
+QString partnumber;
 bool first_time = true;
 
 
@@ -113,6 +117,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->label_5->setText(QString::number(tester_file_number));
+    strcpy(outputfilepath, "C:\\Users\\hmcul\\Desktop\\StudyUI_Results\\3.txt");
 }
 
 MainWindow::~MainWindow()
@@ -150,6 +156,7 @@ static int readData(char* filepath){
 
 void MainWindow::on_play_clicked()
 {
+    ui->label_5->setText(QString::number(tester_file_number));
     ui->feel_good->setDisabled(false);
     ui->feel_strong->setDisabled(false);
     ui->feel_nothing->setDisabled(false);
@@ -159,29 +166,7 @@ void MainWindow::on_play_clicked()
     ui->increase_one->setDisabled(true);
     ui->decrease_one->setDisabled(true);
 
-    //File initializer for recording the results
-    resultsFile = fopen("C:\\Users\\hmcul\\Desktop\\StudyUI_Results\\study.csv", "a");
 
-    if (resultsFile == NULL) {
-        printf("Error! opening file");
-        getchar();
-        // Program exits if the file pointer returns NULL.
-        exit(1);
-    }
-
-    if (first_time) {
-        //participant_id = ui->participant_id->text();
-        std::string parti = participant_id.toUtf8().constData();
-        fprintf(resultsFile, "%d", participant_id);
-        first_time = false;
-    }
-
-
-    //fprintf(resultsFile, "%s", participant_id);
-    //fprintf(resultsFile, ", %s", participant_id);
-
-    //info << "Hello";
-    fprintf(resultsFile, ", %d", tester_file_number);
 
     tester_choice.append(tester_file_number);
     //tester_file_number +=1;
@@ -277,10 +262,8 @@ void MainWindow::on_increase_five_clicked()
 {
     //change  file number
     tester_file_number += 5;
-    ui->feel_good->setDisabled(true);
-    ui->feel_strong->setDisabled(true);
-    ui->feel_nothing->setDisabled(true);
-    ui->feel_something->setDisabled(true);
+
+    ui->label_5->setText(QString::number(tester_file_number));
 
     //record
 
@@ -291,10 +274,8 @@ void MainWindow::on_decrease_five_clicked()
 {
     //change  file number
     tester_file_number -= 5;
-    ui->feel_good->setDisabled(true);
-    ui->feel_strong->setDisabled(true);
-    ui->feel_nothing->setDisabled(true);
-    ui->feel_something->setDisabled(true);
+
+    ui->label_5->setText(QString::number(tester_file_number));
 
 
 }
@@ -304,10 +285,8 @@ void MainWindow::on_increase_one_clicked()
     //change  file number
     tester_file_number += 1;
 
-    ui->feel_good->setDisabled(true);
-    ui->feel_strong->setDisabled(true);
-    ui->feel_nothing->setDisabled(true);
-    ui->feel_something->setDisabled(true);
+
+    ui->label_5->setText(QString::number(tester_file_number));
 
     //record
     //tester_choice.append(tester_file_number);
@@ -319,10 +298,8 @@ void MainWindow::on_decrease_one_clicked()
     //change  file number
     tester_file_number -= 1;
 
-    ui->feel_good->setDisabled(true);
-    ui->feel_strong->setDisabled(true);
-    ui->feel_nothing->setDisabled(true);
-    ui->feel_something->setDisabled(true);
+
+    ui->label_5->setText(QString::number(tester_file_number));
 
     //record
     //tester_choice.append(tester_file_number);
@@ -331,26 +308,146 @@ void MainWindow::on_decrease_one_clicked()
 
 void MainWindow::on_feel_nothing_clicked()
 {
-    fprintf(resultsFile, ", 1");
+    //File initializer for recording the results
+    resultsFile = fopen(outputfilepath, "a");
+
+    if (resultsFile == NULL) {
+        printf("Error! opening file");
+        getchar();
+        // Program exits if the file pointer returns NULL.
+        exit(1);
+    }
+    participant_id = ui->participant_id->text();
+    //std::string parti = participant_id.toUtf8().constData();
+    moisture_percent =ui->moisture_percent->text();
+    partnumber= ui->part_no->currentText();
+    //print participant number
+    fprintf(resultsFile, "%s, ", participant_id.toStdString().c_str());
+    //print moisture level
+    fprintf(resultsFile, "%s, ", moisture_percent.toStdString().c_str());
+    //print partnumber
+    fprintf(resultsFile, "%s, ", partnumber.toStdString().c_str());
+    //print signal number
+    fprintf(resultsFile, "%d, ", tester_file_number);
+    //print feeling number
+    fprintf(resultsFile, "1\n");
     tester_reaction.append(1);
+    ui->feel_good->setDisabled(true);
+    ui->feel_strong->setDisabled(true);
+    ui->feel_nothing->setDisabled(true);
+    ui->feel_something->setDisabled(true);
+    ui->increase_five->setDisabled(false);
+    ui->decrease_five->setDisabled(false);
+    ui->increase_one->setDisabled(false);
+    ui->decrease_one->setDisabled(false);
 
 }
 
 void MainWindow::on_feel_something_clicked()
 {
-    fprintf(resultsFile, ", 2");
+    //File initializer for recording the results
+    resultsFile = fopen(outputfilepath, "a");
+
+    if (resultsFile == NULL) {
+        printf("Error! opening file");
+        getchar();
+        // Program exits if the file pointer returns NULL.
+        exit(1);
+    }
+    participant_id = ui->participant_id->text();
+    //std::string parti = participant_id.toUtf8().constData();
+    moisture_percent =ui->moisture_percent->text();
+    partnumber= ui->part_no->currentText();
+    //print participant number
+    fprintf(resultsFile, "%s, ", participant_id.toStdString().c_str());
+    //print moisture level
+    fprintf(resultsFile, "%s, ", moisture_percent.toStdString().c_str());
+    //print partnumber
+    fprintf(resultsFile, "%s, ", partnumber.toStdString().c_str());
+    //print signal number
+    fprintf(resultsFile, "%d, ", tester_file_number);
+    //print feeling number
+    fprintf(resultsFile, "2\n");
+    ui->feel_good->setDisabled(true);
+    ui->feel_strong->setDisabled(true);
+    ui->feel_nothing->setDisabled(true);
+    ui->feel_something->setDisabled(true);
+    ui->increase_five->setDisabled(false);
+    ui->decrease_five->setDisabled(false);
+    ui->increase_one->setDisabled(false);
+    ui->decrease_one->setDisabled(false);
     tester_reaction.append(2);
 }
 
 void MainWindow::on_feel_good_clicked()
 {
-    fprintf(resultsFile, ", 3");
+    //File initializer for recording the results
+    resultsFile = fopen(outputfilepath, "a");
+
+    if (resultsFile == NULL) {
+        printf("Error! opening file");
+        getchar();
+        // Program exits if the file pointer returns NULL.
+        exit(1);
+    }
+    participant_id = ui->participant_id->text();
+    //std::string parti = participant_id.toUtf8().constData();
+    moisture_percent =ui->moisture_percent->text();
+    partnumber= ui->part_no->currentText();
+    //print participant number
+    fprintf(resultsFile, "%s, ", participant_id.toStdString().c_str());
+    //print moisture level
+    fprintf(resultsFile, "%s, ", moisture_percent.toStdString().c_str());
+    //print partnumber
+    fprintf(resultsFile, "%s, ", partnumber.toStdString().c_str());
+    //print signal number
+    fprintf(resultsFile, "%d, ", tester_file_number);
+    //print feeling number
+    fprintf(resultsFile, "3\n");
+    ui->feel_good->setDisabled(true);
+    ui->feel_strong->setDisabled(true);
+    ui->feel_nothing->setDisabled(true);
+    ui->feel_something->setDisabled(true);
+    ui->increase_five->setDisabled(false);
+    ui->decrease_five->setDisabled(false);
+    ui->increase_one->setDisabled(false);
+    ui->decrease_one->setDisabled(false);
     tester_reaction.append(3);
 }
 
 void MainWindow::on_feel_strong_clicked()
 {
-    fprintf(resultsFile, ", 4");
+    //File initializer for recording the results
+    resultsFile = fopen(outputfilepath, "a");
+
+    if (resultsFile == NULL) {
+        printf("Error! opening file");
+        getchar();
+        // Program exits if the file pointer returns NULL.
+        exit(1);
+    }
+    participant_id = ui->participant_id->text();
+    //std::string parti = participant_id.toUtf8().constData();
+    moisture_percent =ui->moisture_percent->text();
+    partnumber= ui->part_no->currentText();
+    //print participant number
+    fprintf(resultsFile, "%s, ", participant_id.toStdString().c_str());
+    //print moisture level
+    fprintf(resultsFile, "%s, ", moisture_percent.toStdString().c_str());
+    //print partnumber
+    fprintf(resultsFile, "%s, ", partnumber.toStdString().c_str());
+    //print signal number
+    fprintf(resultsFile, "%d, ", tester_file_number);
+    //print feeling number
+    fprintf(resultsFile, "4\n");
+    ui->feel_good->setDisabled(true);
+    ui->feel_strong->setDisabled(true);
+    ui->feel_nothing->setDisabled(true);
+    ui->feel_something->setDisabled(true);
+    ui->increase_five->setDisabled(false);
+    ui->decrease_five->setDisabled(false);
+    ui->increase_one->setDisabled(false);
+    ui->decrease_one->setDisabled(false);
     tester_reaction.append(4);
 }
 
