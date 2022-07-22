@@ -118,7 +118,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->label_5->setText(QString::number(tester_file_number));
-    strcpy(outputfilepath, "C:\\Users\\hmcul\\Desktop\\StudyUI_Results\\3.txt");
+    strcpy(outputfilepath, "C:\\Users\\hmcul\\Desktop\\StudyUI_Results\\1.txt");
 }
 
 MainWindow::~MainWindow()
