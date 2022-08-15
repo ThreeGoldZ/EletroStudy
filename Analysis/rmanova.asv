@@ -44,8 +44,12 @@ for i=1:120
     end
 end
 
-
-
+%loc1_min= loc1_min/sum(loc1_min)
+%loc2_min= loc2_min/sum(loc2_min)
+%loc3_min= loc3_min/sum(loc3_min)
+loc4_min= loc4_min/sum(loc4_min)
+loc5_min= loc5_min/sum(loc5_min)
+loc6_min= loc6_min/sum(loc6_min)
 
 for i=1:120
     if  data(i,4)==1
@@ -67,20 +71,13 @@ for i=1:120
         loc6_max=[loc6_max data(i,7)]
     end
 end
-%p_number=p_number[7:17]
 
 Location=[1 2 3 4 5 6]';
 
 t_min = table(p_number',loc1_min',loc2_min',loc3_min',loc4_min',loc5_min',loc6_min','VariableNames',{'SubjectNumber','l1','l2','l3','l4','l5','l6'});
-rm_min = fitrm(t_min,'l1-l6 ~ SubjectNumber','WithinDesign',Location,'WithinModel','orthogonalcontrasts')
+rm = fitrm(t_min,'l1-l6 ~ SubjectNumber','WithinDesign',Location,'WithinModel','orthogonalcontrasts')
 
-T_min = multcompare(rm_min,'Time')
-ranovatbl_min = ranova(rm_min)
-
-t_max = table(p_number',loc1_max',loc2_max',loc3_max',loc4_max',loc5_max',loc6_max','VariableNames',{'SubjectNumber','l1','l2','l3','l4','l5','l6'});
-rm_max = fitrm(t_max,'l1-l6 ~ SubjectNumber','WithinDesign',Location,'WithinModel','orthogonalcontrasts')
-
-T_max = multcompare(rm_max,'Time')
-ranovatbl_max = ranova(rm_max)
+T = multcompare(rm,'Time')
+ranovatbl = ranova(rm)
 %[ranovatbl,A,C,D] = ranova(rm,'WithinModel',Location)
 %multcompare(ranovatbl)
