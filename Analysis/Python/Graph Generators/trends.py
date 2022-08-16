@@ -4,7 +4,7 @@ import re
 import matplotlib.pylab as plt
 import pandas as pd
 
-path = r"/Users/jalapatip/Work/HaRVI/ElectroResults/Study/All/1.txt"
+path = r"/Users/jalapatip/Work/HaRVI/ElectroResults/Study/All/3.txt"
 
 
 def sequence_generator(n):
@@ -79,4 +79,5 @@ for file_name in glob.glob(path):
 
 figure.legend(bbox_to_anchor=(1.13, 0.4))
 # figure.suptitle('Male 19-24', fontsize=20)
+# plt.savefig("/Users/jalapatip/Desktop/Graphs/Trends_Modified/17.png")
 plt.show()

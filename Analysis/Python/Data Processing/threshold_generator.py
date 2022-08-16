@@ -1,14 +1,77 @@
 import glob
 import re
 
-import matplotlib.pylab as plt
 import pandas as pd
 
-path = r"/Users/jalapatip/Work/HaRVI/ElectroResults/Study/All/*.txt"
+path = r"/Users/jalapatip/Work/HaRVI/ElectroResults/Study/Male/25-30-24/*.txt"
 
 
-def sequence_generator(n):
-    return pd.Series(range(0, len(n)))
+def user_demo_map(user):
+    gender = "Male"
+    age = 25
+
+    if 1 == user:
+        gender = "Female"
+        age = 25
+    elif 8 == user:
+        gender = "Female"
+        age = 22
+    elif 10 == user:
+        gender = "Female"
+        age = 21
+    elif 11 == user:
+        gender = "Female"
+        age = 22
+    elif 15 == user:
+        gender = "Female"
+        age = 23
+    elif 16 == user:
+        gender = "Female"
+        age = 24
+    elif 2 == user:
+        gender = "Male"
+        age = 27
+    elif 3 == user:
+        gender = "Male"
+        age = 25
+    elif 4 == user:
+        gender = "Male"
+        age = 19
+    elif 5 == user:
+        gender = "Male"
+        age = 25
+    elif 6 == user:
+        gender = "Male"
+        age = 25
+    elif 7 == user:
+        gender = "Male"
+        age = 21
+    elif 9 == user:
+        gender = "Male"
+        age = 27
+    elif 12 == user:
+        gender = "Male"
+        age = 21
+    elif 13 == user:
+        gender = "Male"
+        age = 23
+    elif 14 == user:
+        gender = "Male"
+        age = 23
+    elif 17 == user:
+        gender = "Male"
+        age = 23
+    elif 18 == user:
+        gender = "Male"
+        age = 21
+    elif 19 == user:
+        gender = "Male"
+        age = 25
+    elif 20 == user:
+        gender = "Male"
+        age = 24
+
+    return gender, age
 
 
 def get_threshold(df, part, sense):
@@ -51,10 +114,14 @@ def get_threshold(df, part, sense):
 
 reformat = pd.DataFrame()
 
+
+
 for file_name in glob.glob(path):
     df = pd.read_csv(file_name, header=None)
 
     user = re.findall(r'[^\/]+(?=\.)', file_name)
+
+    gender, age = user_demo_map(user[0])
 
     grouped = df.groupby(df[2])
 
@@ -66,13 +133,10 @@ for file_name in glob.glob(path):
             if minimum > 0:
                 if maximum > 0:
                     if maximum >= minimum:
-                        print("hello")
                         temp = pd.DataFrame(
-                            {"user": [user[0]], "moisture": [moisture], "part": [part], "sense": [sense],
-                             "minimum": [minimum], "maximum": [maximum]})
+                            {"user": [user[0]], "Gender": [gender], "Age": [age], "part": [part],
+                             "moisture": [moisture], "level": [sense], "minimum": [minimum], "maximum": [maximum],
+                             "range": [maximum - minimum]})
                         reformat = reformat.append(temp, ignore_index=True)
 
-
-print(reformat)
-
-
+reformat.to_csv("/Users/jalapatip/Work/HaRVI/ElectroResults/Study/male_25_30.csv", index=False)
